@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTextEdit>
+#include <QPushButton>
 
 namespace Ui {
 class MainWindow;
@@ -38,6 +40,9 @@ private:
     QAction *debug_debug;
     //Help Menu
     QAction *about_help;
+    QDockWidget *center;
+    QTabWidget *tab;
+    QPushButton *btn;
 };
 
 #endif // MAINWINDOW_H

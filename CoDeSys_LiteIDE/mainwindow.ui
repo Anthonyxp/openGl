@@ -25,32 +25,32 @@
    </property>
    <widget class="QMenu" name="menu_F">
     <property name="title">
-     <string>文件（F）</string>
+     <string>文件(F)</string>
     </property>
    </widget>
    <widget class="QMenu" name="menu_E">
     <property name="title">
-     <string>编辑（E）</string>
+     <string>编辑(E)</string>
     </property>
    </widget>
    <widget class="QMenu" name="menu_B">
     <property name="title">
-     <string>构建（B）</string>
+     <string>构建(B)</string>
     </property>
    </widget>
    <widget class="QMenu" name="menu_O">
     <property name="title">
-     <string>在线（O）</string>
+     <string>在线(O)</string>
     </property>
    </widget>
    <widget class="QMenu" name="menu_D">
     <property name="title">
-     <string>调试（D）</string>
+     <string>调试(D)</string>
     </property>
    </widget>
    <widget class="QMenu" name="menu_H">
     <property name="title">
-     <string>帮助（H）</string>
+     <string>帮助(H)</string>
     </property>
    </widget>
    <addaction name="menu_F"/>
