@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<school>
+    <teacher>
+        <entry name="Job">
+            <age>30</age>
+            <sport>soccer</sport>
+        </entry>
+        <entry name="Tom">
+            <age>32</age>
+            <sport>swimming</sport>
+        </entry>
+    </teacher>
+    <student>
+        <entry name="Lily">
+            <age>20</age>
+            <sport>dancing</sport>
+        </entry>
+        <entry name="Keith">
+            <age>21</age>
+            <sport>running</sport>
+        </entry>
+    </student>
+</school>
