@@ -40,7 +40,9 @@ private:
     QAction *debug_debug;
     //Help Menu
     QAction *about_help;
+
     QDockWidget *center;
+
     QTabWidget *tab;
     QPushButton *btn;
 };
