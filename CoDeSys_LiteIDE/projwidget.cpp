@@ -33,16 +33,18 @@ bool ProjWidget::parseProjXml(QString projPath)
     }
     file.close();
 
-    mTreeWidge = new QTreeWidget(this);
-    connect(mTreeWidge,SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this
+//    mTreeWidge = new QTreeWidget(this);
+//    ui->mTreeWidge->setFixedSize(width,height);
+    ui->mTreeWidge->setHeaderLabel("soluation");
+    connect(ui->mTreeWidge,SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this
             ,SLOT(treeItemDClicked(QTreeWidgetItem*,int)));//检测点击事件，信号槽机制
-    connect(mTreeWidge,SIGNAL(itemPressed(QTreeWidgetItem*,int))
+    connect(ui->mTreeWidge,SIGNAL(itemPressed(QTreeWidgetItem*,int))
             , this,SLOT(itemPressedSlot(QTreeWidgetItem*,int)));//检测鼠标右键
 
     QDomElement root=doc.documentElement(); //返回根节点
     qDebug()<<root.nodeName();
 
-    QTreeWidgetItem *mRoot = new QTreeWidgetItem(mTreeWidge);
+    QTreeWidgetItem *mRoot = new QTreeWidgetItem(ui->mTreeWidge);
     mRoot->setText(0,root.nodeName());
     mRoot->setFlags(Qt::ItemIsEnabled|Qt::ItemIsSelectable);
 
@@ -83,7 +85,7 @@ bool ProjWidget::parseProjXml(QString projPath)
         node=node.nextSibling(); //下一个兄弟节点,nextSiblingElement()是下一个兄弟元素，都差不多
     }
 
-    mTreeWidge->show();
+    ui->mTreeWidge->show();
 
     return true;
 }
@@ -93,6 +95,7 @@ void ProjWidget::treeItemDClicked(QTreeWidgetItem* item,int column)
     if (item->childCount() == 0)
     {
         //打开文件
+        emit openFile(item->text(column));
     }
 
 }
@@ -101,7 +104,7 @@ void ProjWidget::itemPressedSlot(QTreeWidgetItem * pressedItem, int column)
 {
     if(qApp->mouseButtons() == Qt::RightButton)   //判断是否为右键
     {
-        QMenu *menu = new QMenu(mTreeWidge);
+        QMenu *menu = new QMenu(ui->mTreeWidge);
         if (pressedItem->childCount() == 0)   //在我的QTreeWidget对象中，有三个QTreeWidgetItem对象，其中有一个内容为“Ａ”
         {
             QAction deleteWell(QString::fromLocal8Bit("&删除"),this);//删除
@@ -119,37 +122,7 @@ void ProjWidget::itemPressedSlot(QTreeWidgetItem * pressedItem, int column)
 
 void ProjWidget::deleteItem()
 {
-    root->removeChild(treeWidget->currentItem());
-    if(myW != NULL)
-    {
-        myW->setParent(NULL);
-        ui.verticalLayout_4->removeWidget(myW);
-    }
-    //删除井数据文件
-    QString dirPath = "../Data1/";
-    dirPath.append(treeWidget->currentItem()->text(0));
-    dirPath.append("/");
-    DeleteDirectory(dirPath);//实现在下面
+
 
 }
-bool ProjWidget::DeleteDirectory(const QString &path)
-{
-    if (path.isEmpty())
-        return false;
 
-    QDir dir(path);
-    if(!dir.exists())
-        return true;
-
-    dir.setFilter(QDir::AllEntries | QDir::NoDotAndDotDot);
-    QFileInfoList fileList = dir.entryInfoList();
-    foreach (QFileInfo fi, fileList)
-    {
-        if (fi.isFile())
-            fi.dir().remove(fi.fileName());
-        else
-            DeleteDirectory(fi.absoluteFilePath());
-    }
-
-    return dir.rmpath(dir.absolutePath());
-}

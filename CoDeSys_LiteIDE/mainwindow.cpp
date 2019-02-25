@@ -4,6 +4,8 @@
 #include <QTreeWidget>
 #include <QTextEdit>
 #include <projwidget.h>
+#include <QLabel>
+#include "centerwidget.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -75,19 +77,26 @@ MainWindow::MainWindow(QWidget *parent) :
     //中心停靠窗
     center = new QDockWidget();    //中心停靠窗
     //setCentralWidget(center);      //中心窗口部件，QMainWindow::centerwidget
-    tab = new QTabWidget();
-    tab->addTab(new QTextEdit("tab1"),"Tab1");
-    tab->addTab(new QTextEdit("tab2"),"Tab2");
-    tab->addTab(new QTextEdit("tab3"),"Tab3");
-    tab->addTab(new QTextEdit("tab4"),"Tab4");
-    setCentralWidget(tab);      //中心窗口部件，QMainWindow::centerwidget
+//    tab = new QTabWidget();
+//    tab->setTabsClosable(true);
+//    connect(tab,SIGNAL(tabCloseRequested(int)),this,SLOT(removeSubTab(int)));
+//    tab->addTab(new QTextEdit("tab1"),"Tab1");
+//    tab->addTab(new QTextEdit("tab2"),"Tab2");
+//    tab->addTab(new QTextEdit("tab3"),"Tab3");
+//    tab->addTab(new QTextEdit("tab4"),"Tab4");
+
+    CenterWidget *cWidget = new CenterWidget();
+
+    setCentralWidget(cWidget);      //中心窗口部件，QMainWindow::centerwidget
+
 
     //左停靠窗
-    QDockWidget *mLeftDock = new QDockWidget("Project",this);
+    QDockWidget *mLeftDock = new QDockWidget(tr("项目浏览器"),this);
     mLeftDock->setFeatures(QDockWidget::AllDockWidgetFeatures);
 
     ProjWidget *dd = new ProjWidget(); //工程管理树状图
-    dd->setFixedWidth(260);
+    dd->setFixedWidth(255);
+//    dd->setFixedHeight(600);
     dd->parseProjXml("F:\\openGl\\CoDeSys_LiteIDE\\debug\\test.xml");
 
     mLeftDock->setWidget(dd);    //将树控件添加到左停靠窗中
@@ -109,9 +118,24 @@ MainWindow::MainWindow(QWidget *parent) :
 
      btn = new QPushButton("Open");
      ui->mainToolBar->addWidget(btn);
+     //设置不显示label边框
+//     ui->statusBar->setStyleSheet(QString("QStatusBar::item{border:0px}"));
+     //设置不显示右边的大小控制点
+     ui->statusBar->setSizeGripEnabled(true);
+     ui->statusBar->addWidget(new QLabel(tr(""),this));
+     ui->statusBar->addWidget(new QLabel(tr("离线"),this));
+     ui->statusBar->addWidget(new QLabel(tr("模式"),this));
+     ui->statusBar->addWidget(new QLabel(tr("警告"),this));
+     ui->statusBar->addWidget(new QLabel(tr("错误"),this));
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::removeSubTab(int index)
+{
+    tab->removeTab(index);
 }
